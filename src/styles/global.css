@@ -153,3 +153,50 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+.blog_img
+{
+	width: 320px;
+	height: 180px;
+}
+.blog_post {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+	text-decoration: none;
+	color: inherit;
+	margin-bottom: 30px;
+}
+
+.blog_img {
+	width: 320px;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 4px;
+}
+
+.blog_content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.title {
+	margin: 0 0 10px;
+	font-size: 1.25rem;
+	color: #2c6ea4;
+}
+
+.excerpt {
+	margin: 0 0 20px;
+	color: #555;
+}
+
+.date {
+	font-size: 0.875rem;
+	color: #777;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
