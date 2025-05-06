@@ -2,6 +2,7 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Sidebar from '../../components/Sidebar.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
@@ -88,6 +89,13 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
+			<div class="layout">
+				<Sidebar posts={posts} />
+				<main class="blog-content">
+				  <h1>Blog Posts</h1>
+				  <!-- Your post list goes here -->
+				</main>
+			  </div>
 			<section>
 					{
 						posts.map((post) => (

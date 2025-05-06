@@ -1,0 +1,25 @@
+---
+import { groupPostsByDate } from '../utils/utils.ts';
+import '../styles/sidebar.css';
+const { posts } = Astro.props;
+
+const archive = groupPostsByDate(posts);
+---
+
+<aside class="sidebar">
+	<h2>Archives</h2>
+	{Object.keys(archive).sort((a, b) => Number(b) - Number(a)).map((year) => (
+		<div>
+			<h3>{year}</h3>
+			<ul>
+				{Object.keys(archive[year]).map((month) => (
+					<li>
+						<a href={`/archive/${year}/${month.toLowerCase()}`}>
+							{month} ({archive[year][month].length})
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	))}
+</aside>
