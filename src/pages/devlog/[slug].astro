@@ -1,40 +1,31 @@
 ---
-import { getCollection, getEntryBySlug } from 'astro:content';
+import { getCollection, getEntryBySlug, type CollectionEntry } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import BlogPost from '../../layouts/BlogPost.astro';
+import { render } from 'astro:content';
 
-const { slug } = Astro.params;
-
-// ✅ Try to get the full devlog entry by slug
-const entry = await getEntryBySlug('devlog', slug);
-
-if (!entry) throw new Error(`Devlog entry not found for slug: ${slug}`);
-
-const { Content, data } = entry;
-
-// ✅ Required: define getStaticPaths for all dynamic slugs
+// Required to generate pages for each devlog
 export async function getStaticPaths() {
   const entries = await getCollection('devlog');
   return entries.map((entry) => ({
     params: { slug: entry.slug },
   }));
 }
+
+// ✅ Get entry by slug
+const { slug } = Astro.params;
+const entry = await getEntryBySlug('devlog', slug);
+
+if (!entry) throw new Error(`Entry not found for slug: ${slug}`);
+
+// ✅ Render and fix typing
+const { Content } = await render(entry);
+const post = entry; // we’ll use post.data below
+post.data.pubDate = new Date(post.data.pubDate); // ensure date object
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <BaseHead title={data.title} description={data.description} />
-  </head>
-  <body>
-    <Header />
-    <main class="content">
-      <h1>{data.title}</h1>
-      <p><strong>Published:</strong> {new Date(data.pubDate).toDateString()}</p>
-      <p><strong>Tag:</strong> {data.gametag}</p>
-      <Content /> <!-- ✅ This will now work -->
-    </main>
-    <Footer />
-  </body>
-</html>
+<BlogPost {...post.data}>
+  <Content />
+</BlogPost>

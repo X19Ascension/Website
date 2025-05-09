@@ -4,6 +4,9 @@ interface Props {
 }
 
 const { date } = Astro.props;
+if (!date) {
+  throw new Error('FormattedDate: "date" prop is missing');
+}
 ---
 
 <time datetime={date.toISOString()}>
