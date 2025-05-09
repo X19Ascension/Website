@@ -15,4 +15,17 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const devlog = defineCollection({
+	// ✅ NO loader, use default location: src/content/devlog
+	schema: z.object({
+	  title: z.string(),
+	  description: z.string(),
+	  pubDate: z.coerce.date(),
+	  updatedDate: z.coerce.date().optional(),
+	  heroImage: z.string().optional(),
+	  gametag: z.string(),
+	}),
+  });
+
+
+export const collections = { blog, devlog };

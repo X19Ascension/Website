@@ -2,15 +2,17 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import Sidebar from '../../components/Sidebar.astro';
+import Sidebar from '../../components/Sidebar.jsx';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
+
 
 <!doctype html>
 <html lang="en">
@@ -22,9 +24,7 @@ const posts = (await getCollection('blog')).sort(
     <Header />
 
     <div class="layout">
-      	<aside class="sidebar">
-        	<Sidebar posts={posts} />
-      	</aside>
+		<Sidebar posts={posts} client:load />
 	  
       	<div class="content-wrapper">
 			<main class="blog-content">
@@ -32,19 +32,45 @@ const posts = (await getCollection('blog')).sort(
 			</main>
 		
 			{posts.map((post) => (
-			  <a href={`/blog/${post.id}/`} class="blog_post">
-				<img class="blog_img" src={post.data.heroImage} alt={post.data.title} />
-				<div class="blog_content">
-				  <h4 class="title">{post.data.title}</h4>
-				  <p class="date">
-					<FormattedDate date={post.data.pubDate} />
-				  </p>
-				</div>
-			  </a>
-			))}
+				<a
+				  href={`/blog/${post.id}/`}
+				  class="blog_post"
+				  data-date={post.data.pubDate.toISOString()}
+				>
+				  <img class="blog_img" src={post.data.heroImage} alt={post.data.title} />
+				  <div class="blog_content">
+					<h4 class="title">{post.data.title}</h4>
+					<h6 class="description">{post.data.description}</h6>
+					<p class="date">
+					  <FormattedDate date={post.data.pubDate} />
+					</p>
+				  </div>
+				</a>
+			  ))}
 		  </div>
     </div>
-
+	<button onclick="document.querySelectorAll('.blog_post').forEach(p => p.style.display = 'block')">
+		Show All Posts
+	  </button>
     <Footer />
+	<script type="module">
+		window.addEventListener('archive-filter', (e) => {
+		  const { year, month } = e.detail;
+	  
+		  document.querySelectorAll('.blog_post').forEach((el) => {
+			const dateStr = el.dataset.date;
+			if (!dateStr) return;
+	  
+			const postDate = new Date(dateStr);
+			const postYear = postDate.getFullYear().toString();
+			const postMonth = postDate.toLocaleString('default', { month: 'long' });
+	  
+			const matches = postYear === year && postMonth === month;
+	  
+			el.style.display = matches ? 'block' : 'none';
+		  });
+		});
+	  </script>
+	  
   </body>
 </html>
