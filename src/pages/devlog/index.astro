@@ -28,7 +28,7 @@ const posts = (await getCollection('devlog')).sort(
           class="blog_post"
           data-date={post.data.pubDate.toISOString()}
         >
-          <img class="blog_img" src={post.data.heroImage} alt={post.data.title} />
+          <img class="blog_img" src={post.data.previewImage} alt={post.data.title} />
           <div class="blog_content">
             <h4 class="title">{post.data.title}</h4>
             <h6 class="description">{post.data.description}</h6>
