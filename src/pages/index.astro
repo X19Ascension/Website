@@ -3,6 +3,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import currentStatus from '../data/currentStatus.json';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
@@ -13,7 +19,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
+			<!--<h1>🧑‍🚀 Hello, Astronaut!</h1>
 			<p>
 				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
 				template serves as a lightweight, minimally-styled starting point for anyone looking to build
@@ -42,7 +48,32 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 				Looking for a blog template with a bit more personality? Check out
 				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
 				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			</p>-->
+			<h2>Greetings, Weary Traveller!</h2>
+			<p>I build things with code — devlogs, experiments, and side projects.</p>
+  			<a href="/devlog" class="button">See Devlog</a>
+
+			{posts.length === 0 ? (
+				<p>No blog posts found.</p>
+			  ) : (
+				posts.slice(0, 3).map((post) => (
+				<a href={`/blog/${post.id}/`} class="post-preview">
+					<h3>{post.data.title}</h3>
+					<p>{post.data.description}</p>
+				  </a>
+				))
+			  )}
+
+			<section class="now">
+				<h2>Now</h2>
+				<ul>
+	  			<li>🎮 Playing: {currentStatus.currentGamePlaying}</li>
+				<li>🎮 Backlog Game: {currentStatus.currentGamePlaying}</li>
+	  			<li>📖 Reading: {currentStatus.reading}</li>
+	  			<li>📺 Watching: {currentStatus.watching}</li>
+	  			<li>🎧 Listening: {currentStatus.listening}</li>
+	</ul>
+  </section>
 		</main>
 		<Footer />
 	</body>

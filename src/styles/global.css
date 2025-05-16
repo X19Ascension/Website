@@ -227,3 +227,7 @@ hr {
         flex-direction: column;
     }
 }
+
+.social-links a svg:hover {
+	fill: #9146FF; /* Twitch purple */
+  }
