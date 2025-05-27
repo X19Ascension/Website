@@ -29,3 +29,29 @@
 {
 	text-decoration: underline;
 }
+/* Hide blog posts initially unless shown */
+.blog_post.hidden 
+{
+	display: none;
+}
+
+.content-wrapper 
+{
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	align-items: stretch;  /* <-- this ensures full width stacking */
+}
+
+  
+  /* Show all posts when class is added to parent */
+.content-wrapper.show-all .blog_post 
+{
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	justify-content: flex-start;  /* <-- add this */
+	width: 100%;  
+}
+
+  

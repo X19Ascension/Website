@@ -29,13 +29,13 @@ const posts = (await getCollection('blog')).sort(
 		<!-- Left side: Archive Sidebar -->
 		 <aside class="sidebar-left">
 			<Sidebar posts={posts} client:load/>
-			<button onclick="document.querySelectorAll('.blog_post').forEach(p => p.style.display = 'block')">
+			<button onclick="document.getElementById('postWrapper').classList.add('show-all')">
 				Show All Posts
-			  </button>
+			</button>
 		 </aside>
 
 		 <!-- Center: Blog Posts -->
-		  <div class="content-wrapper">
+		  <div class="content-wrapper" id="postWrapper">
 			<main class="blog-content">
 				<h1>Blog Posts</h1>
 			</main>
@@ -70,6 +70,8 @@ const posts = (await getCollection('blog')).sort(
 	<script type="module">
 		window.addEventListener('archive-filter', (e) => {
 		  const { year, month } = e.detail;
+		  const wrapper = document.getElementById('postWrapper');
+		  wrapper.classList.remove('show-all');
 	  
 		  document.querySelectorAll('.blog_post').forEach((el) => {
 			const dateStr = el.dataset.date;
@@ -80,8 +82,7 @@ const posts = (await getCollection('blog')).sort(
 			const postMonth = postDate.toLocaleString('default', { month: 'long' });
 	  
 			const matches = postYear === year && postMonth === month;
-	  
-			el.style.display = matches ? 'block' : 'none';
+			el.classList.toggle('hidden', !matches);
 		  });
 		});
 	  </script>
