@@ -7,6 +7,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
+import '../../styles/blogPostIndex.css'
+
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -23,14 +25,20 @@ const posts = (await getCollection('blog')).sort(
   <body>
     <Header />
 
-    <div class="layout">
-		<Sidebar posts={posts} client:load />
-	  
-      	<div class="content-wrapper">
+	<div class="three-column-layout">
+		<!-- Left side: Archive Sidebar -->
+		 <aside class="sidebar-left">
+			<Sidebar posts={posts} client:load/>
+			<button onclick="document.querySelectorAll('.blog_post').forEach(p => p.style.display = 'block')">
+				Show All Posts
+			  </button>
+		 </aside>
+
+		 <!-- Center: Blog Posts -->
+		  <div class="content-wrapper">
 			<main class="blog-content">
-			  <h1>Blog Posts</h1>
+				<h1>Blog Posts</h1>
 			</main>
-		
 			{posts.map((post) => (
 				<a
 				  href={`/blog/${post.id}/`}
@@ -48,10 +56,16 @@ const posts = (await getCollection('blog')).sort(
 				</a>
 			  ))}
 		  </div>
-    </div>
-	<button onclick="document.querySelectorAll('.blog_post').forEach(p => p.style.display = 'block')">
-		Show All Posts
-	  </button>
+		  <!-- Right Side: Table of Contents -->
+		  <aside class="sidebar-right">
+			<h2>Table of Contents</h2>
+			<ul>
+			  {posts.map((post) => (
+				<li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>
+			  ))}
+			</ul>
+		  </aside>
+	</div>
     <Footer />
 	<script type="module">
 		window.addEventListener('archive-filter', (e) => {
