@@ -83,6 +83,42 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				</div>
 			</article>
 		</main>
+		<form id="comment-form">
+  <input type="text" name="name" placeholder="Your name" required />
+  <textarea name="message" placeholder="Your comment" required></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+<ul id="comments"></ul>
+
+<script type="module">
+  const form = document.getElementById('comment-form');
+  const commentsList = document.getElementById('comments');
+  const slug = window.location.pathname.split('/').filter(Boolean).pop();
+
+  async function fetchComments() {
+    const res = await fetch(`/.netlify/functions/get-comments?post_slug=${slug}`);
+    const comments = await res.json();
+    commentsList.innerHTML = comments.map(c => `<li><strong>${c.name}:</strong> ${c.message}</li>`).join('');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    data.post_slug = slug;
+
+    await fetch('/.netlify/functions/post-comment', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    form.reset();
+    fetchComments();
+  });
+
+  fetchComments();
+</script>
+
 		<Footer />
 	</body>
 </html>
