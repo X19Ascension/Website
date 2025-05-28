@@ -21,12 +21,13 @@
 
 .sidebar-right a
 {
-	color: #f4d03f;
+	color: #ddd;
 	text-decoration: none;
 }
 
 .sidebar-right a:hover
 {
+	color: #0077cc;
 	text-decoration: underline;
 }
 /* Hide blog posts initially unless shown */
@@ -52,6 +53,11 @@
 	align-items: flex-start;
 	justify-content: flex-start;  /* <-- add this */
 	width: 100%;  
+}
+
+h1, h2
+{
+	color: var(--highlight-color);
 }
 
   

@@ -1,4 +1,5 @@
 import { groupPostsByDate } from '../utils/utils';
+import "../styles/sidebar.css"
 
 export default function Sidebar({ posts }) {
 	const archive = groupPostsByDate(posts);
