@@ -12,7 +12,9 @@ exports.handler = async function (event) {
 
   const { name, message, post_slug } = JSON.parse(event.body);
 
-  const { data, error } = await supabase.from('comments').insert([{ name, message, post_slug }]);
+  const created_at = new Date().toISOString();
+
+  const { data, error } = await supabase.from('comments').insert([{ name, message, post_slug, created_at }]);
 
   if (error) {
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
