@@ -7,6 +7,7 @@ const supabase = createClient(
 
 exports.handler = async function (event) {
   const { post_slug } = event.queryStringParameters;
+  console.log("Received slug:", post_slug);
 
   const { data, error } = await supabase
     .from('comments')
@@ -15,6 +16,7 @@ exports.handler = async function (event) {
     .order('created_at', { ascending: true });
 
   if (error) {
+    console.error("Supabase error:", error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
 
