@@ -60,4 +60,21 @@ h1, h2
 	color: var(--highlight-color);
 }
 
+.show-all-button {
+  background-color: transparent;
+  color: #d6b884;
+  border: 1px solid #d6b884;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.show-all-button:hover {
+  background-color: #d6b884;
+  color: #111;
+}
+
+
   

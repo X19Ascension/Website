@@ -29,7 +29,7 @@ const posts = (await getCollection('blog')).sort(
 		<!-- Left side: Archive Sidebar -->
 		 <aside class="sidebar-left">
 			<Sidebar posts={posts} client:load/>
-			<button onclick="document.getElementById('postWrapper').classList.add('show-all')">
+			<button class="show-all-button" onclick="document.getElementById('postWrapper').classList.add('show-all')">
 				Show All Posts
 			</button>
 		 </aside>
