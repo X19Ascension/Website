@@ -260,3 +260,19 @@ hr {
   color: #f4d03f;
   margin: 0;
 }
+
+.youtube-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.youtube-grid iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  border: 1px solid #333;
+}

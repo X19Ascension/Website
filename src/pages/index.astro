@@ -43,6 +43,11 @@ const dev_posts = (await getCollection('devlog')).sort(
 				  )}
 			</section>
 
+			<section class="youtube-section boxed">
+  				<h2>Latest Videos</h2>
+  				<div class="youtube-grid" id="youtube-feed"></div>
+			</section>
+
 			<section class="latest-posts boxed">
 				<h2> Latest Dev Log Posts </h2>
 				{dev_posts.length === 0 ? (
@@ -72,4 +77,19 @@ const dev_posts = (await getCollection('devlog')).sort(
 		</main>
 		<Footer />
 	</body>
+
+	<script type="module">
+  const feed = document.getElementById('youtube-feed');
+  const res = await fetch('/.netlify/functions/youtube');
+  const videos = await res.json();
+
+  feed.innerHTML = videos.map(video => `
+    <iframe
+      src="https://www.youtube.com/embed/${video.id}"
+      title="${video.title}"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  `).join('');
+</script>
 </html>
